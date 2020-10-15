@@ -1,12 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap 4.5 CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Recaptcha</title>
-    <h1>Recaptcha nodejs</h1>
+
 </head>
+
 <body>
-    
+
+
+
+
+    <div class="container">
+        <h1>Subscribe</h1>
+        <form method="post" id="subscribeForm">
+            <div class="form-group">
+                <label for="name">Name: </label>
+                <input type="text" id="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="email">Email: </label>
+                <input type="text" id="email" class="form-control">
+            </div>
+            <div class="form-group">
+
+            </div>
+
+
+            <div class="g-recaptcha" data-sitekey="6LdJm9cZAAAAAHDL0AhvBphuRhGpIm-TJaUlWWk7"></div>
+
+            <input type="submit" value="Submit" class="btn btn-primary">
+        </form>
+    </div>
+
+
+
+    <script>
+        document.getElementById("subscribeForm").addEventListener("submit", submitForm);
+
+function submitForm(e) {
+    e.preventDefault();
+
+    const name = document.querySelector("#name").value;
+    const email = document.querySelector("#email").value;
+    const captcha = document.querySelector("#g-recaptcha-response").value;
+
+    fetch("/subscribe", {
+        method: "POST",
+        headers: {
+            "Accept": "application/json, text/plain, */*",
+            "Content-type": "application/json"
+
+        },
+        body: JSON.stringify({
+            name: name,
+            email: email,
+            captcha: captcha
+        })
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data);
+        alert(data.message);
+    })
+}
+    </script>
+    <!-- <script>
+        document.getElementById("subscribeForm").addEventListener("submit", submitForm);
+
+        function submitForm(e) {
+            e.preventDefault();
+
+            const name = document.querySelector("#name").value;
+            const email = document.querySelector("#email").value;
+            const captcha = document.querySelector("#g-recaptcha-response").value;
+
+            fetch("/subscribe", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json, text/plain, */*",
+                    "Content-type": "application/json"
+
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    captcha: captcha
+                })
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                alert(data.msg);
+            })
+        }
+    </script> -->
+
+    <!-- Bootstrap JS Requirements -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+    </script>
+
 </body>
+
 </html>
